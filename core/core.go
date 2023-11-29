@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/zeromicro/go-zero/core/logc"
 
 	"cloud-disk/core/internal/config"
 	"cloud-disk/core/internal/handler"
@@ -27,5 +28,6 @@ func main() {
 	handler.RegisterHandlers(server, ctx)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
+	logc.Close()
 	server.Start()
 }
