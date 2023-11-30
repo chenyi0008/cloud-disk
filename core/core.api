@@ -10,8 +10,15 @@ service core-api {
 	// 验证码发送
 	@handler MailCodeSendRegister
 	post /mail/code/send/register(MailCodeSendRequest) returns (MailCodeSendReply)
-
-
+	
+	// 用户注册
+	@handler UserRegister
+	post /user/register(UserRegisterRequest) returns (UserRegisterReply)
+	
+	// 文件上传
+	@handler FileUpload
+	post /file/upload(FileUploadRequest) returns (FileUploadReply)
+	
 }
 
 type LoginRequest {
@@ -38,4 +45,29 @@ type MailCodeSendRequest {
 
 type MailCodeSendReply {
 	Code string `json:"code"`
+}
+
+type UserRegisterRequest {
+	Name string `json:"name"`
+
+	Password string `json:"password"`
+
+	Email string `json:"email"`
+
+	Code string `json:"code"`
+}
+
+type UserRegisterReply {
+}
+
+type FileUploadRequest {
+	Hash string `json:"hash,optional"`
+	Name string `json:"name,optional"`
+	Ext  string `json:"ext,optional"`
+	Size int64  `json:"size,optional"`
+	Path string `json:"path,optional"`
+}
+
+type FileUploadReply {
+	Identity string `json:"identity""`
 }
