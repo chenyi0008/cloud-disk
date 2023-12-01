@@ -46,5 +46,17 @@ type FileUploadRequest struct {
 }
 
 type FileUploadReply struct {
-	Identity string `json:"identity""`
+	Identity string `json:"identity"`
+	Ext      string `json:"ext"`
+	Name     string `json:"name"`
+}
+
+type UserRepositorySaveRequest struct {
+	ParentId           int64  `json:"parentId"`
+	RepositoryIdentity string `json:"repositoryIdentity"`
+	Ext                string `json:"ext"`
+	Name               string `json:"name"`
+}
+
+type UserRepositorySaveReply struct {
 }

@@ -1,7 +1,10 @@
 package logic
 
 import (
+	"cloud-disk/core/helper"
+	"cloud-disk/core/models"
 	"context"
+	"time"
 
 	"cloud-disk/core/internal/svc"
 	"cloud-disk/core/internal/types"
@@ -24,7 +27,26 @@ func NewFileUploadLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileUp
 }
 
 func (l *FileUploadLogic) FileUpload(req *types.FileUploadRequest) (resp *types.FileUploadReply, err error) {
-	// todo: add your logic here and delete this line
+	rp := &models.RepositoryPool{
+		Identity:  helper.GetUUID(),
+		Hash:      req.Hash,
+		Name:      req.Name,
+		Ext:       req.Ext,
+		Size:      req.Size,
+		Path:      req.Path,
+		CreatedAt: time.Time{},
+		UpdatedAt: time.Time{},
+		DeletedAt: time.Time{},
+	}
+	_, err = l.svcCtx.Engine.Insert(rp)
+	if err != nil {
+		return nil, err
+	}
 
+	resp = new(types.FileUploadReply)
+	resp.Identity = rp.Identity
+	resp.Ext = rp.Ext
+	resp.Name = rp.Name
 	return
+
 }

@@ -5,6 +5,7 @@ import (
 	"context"
 	"crypto/md5"
 	"crypto/tls"
+	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jordan-wright/email"
@@ -70,6 +71,7 @@ func GetUUID() string {
 	return uuid.NewV4().String()
 }
 
+// CosUpload 文件上传到腾讯云
 func CosUpload(r *http.Request) (string, error) {
 	u, _ := url.Parse(define.CosBucket)
 	b := &cos.BaseURL{BucketURL: u}
@@ -95,5 +97,20 @@ func CosUpload(r *http.Request) (string, error) {
 	if err != nil {
 		panic(err)
 	}
-	return key, nil
+	return define.CosBucket + "/" + key, nil
+}
+
+// AnalyzeToken token解析
+func AnalyzeToken(token string) (*define.UserClaim, error) {
+	uc := new(define.UserClaim)
+	claims, err := jwt.ParseWithClaims(token, uc, func(token *jwt.Token) (interface{}, error) {
+		return []byte(define.JwtKey), nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	if !claims.Valid {
+		return uc, errors.New("token is invalid")
+	}
+	return uc, err
 }
