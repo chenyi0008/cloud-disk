@@ -12,6 +12,10 @@ go run core.go -f etc/core-api.yaml
 goctl api go -api core.api -dir . -style go_zero
 ```
 
+腾讯云COS后台地址：https://console.cloud.tencent.com/cos/bucket
+
+腾讯云COS帮助文档：https://cloud.tencent.com/document/product/436/31215
+
 
 
 
