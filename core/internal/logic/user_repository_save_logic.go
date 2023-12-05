@@ -43,5 +43,5 @@ func (l *UserRepositorySaveLogic) UserRepositorySave(req *types.UserRepositorySa
 	if err != nil {
 		return nil, err
 	}
-	return
+	return &types.UserRepositorySaveReply{}, nil
 }

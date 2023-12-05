@@ -4,7 +4,9 @@ import (
 	"cloud-disk/core/helper"
 	"cloud-disk/core/models"
 	"crypto/md5"
+	"errors"
 	"fmt"
+	"log"
 	"net/http"
 	"path"
 
@@ -24,6 +26,8 @@ func FileUploadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 
 		file, fileHeader, err := r.FormFile("file")
 		if err != nil {
+			log.Println(err)
+			httpx.ErrorCtx(r.Context(), w, errors.New("请上传文件"))
 			return
 		}
 
@@ -31,16 +35,18 @@ func FileUploadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		b := make([]byte, fileHeader.Size)
 		_, err = file.Read(b)
 		if err != nil {
+			log.Println(err)
 			return
 		}
 		hash := fmt.Sprintf("%x", md5.Sum(b))
 		rp := new(models.RepositoryPool)
 		has, err := svcCtx.Engine.Where("hash = ?", hash).Get(rp)
+
 		if err != nil {
 			return
 		}
 		if has {
-			httpx.OkJson(w, &types.FileUploadReply{Identity: rp.Identity})
+			httpx.OkJson(w, &types.FileUploadReply{Identity: rp.Identity, Ext: rp.Ext, Name: rp.Name})
 			return
 		}
 		// 往COS中存储文件
