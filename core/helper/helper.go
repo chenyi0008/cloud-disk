@@ -24,11 +24,14 @@ func Md5(s string) string {
 	return fmt.Sprintf("%x", md5.Sum([]byte(s)))
 }
 
-func GenerateToken(id int64, identity, name string) (string, error) {
+func GenerateToken(id int64, identity, name string, second int) (string, error) {
 	uc := define.UserClaim{
 		Id:       id,
 		Identity: identity,
 		Name:     name,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Second * time.Duration(second)).Unix(),
+		},
 	}
 	fmt.Printf("uc: %+v", uc)
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, uc)
@@ -37,6 +40,7 @@ func GenerateToken(id int64, identity, name string) (string, error) {
 		log.Println("err:", err)
 		return "", err
 	}
+
 	//tokenString := fmt.Sprintf("%v", token)
 	return tokenString, nil
 }

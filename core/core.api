@@ -61,6 +61,18 @@ service core-api{
 	@handler ShareBasicSave
 	post /share/basic/save(ShareBasicSaveRequest) returns (ShareBasicSaveReply)
 	
+	// 刷新Authorization
+	@handler RefreshAuthorization
+	post /refresh/authorization(RefreshAuthorizationRequest) returns (RefreshAuthorizationReply)
+	
+}
+
+type RefreshAuthorizationRequest {
+}
+
+type RefreshAuthorizationReply {
+	Token        string `json:"token"`
+	RefreshToken string `json:"refreshToken"`
 }
 
 type ShareBasicSaveRequest {
