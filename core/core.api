@@ -15,6 +15,10 @@ service core-api {
 	@handler UserRegister
 	post /user/register(UserRegisterRequest) returns (UserRegisterReply)
 	
+	// 获取资源详情
+	@handler ShareBasicDetail
+	get /share/basic/detail(ShareBasicDetailRequest) returns (ShareBasicDetialReply)
+	
 }
 
 @server (
@@ -49,6 +53,31 @@ service core-api{
 	@handler UserFileMove
 	put /user/file/move (UserFileMoveRequest) returns (UserFileMoveReply)
 	
+	// 创建分享记录
+	@handler ShareBasicCreate
+	post /share/basic/create(ShareBasicCreateRequest) returns (ShareBasicCreateReply)
+	
+}
+
+type ShareBasicDetailRequest {
+	Identity string `json:"identity"`
+}
+
+type ShareBasicDetialReply {
+	RepositoryIdentity string `json:"repositoryIdentity"`
+	Name               string `json:"name"`
+	Ext                string `json:"ext"`
+	Size               int64  `json:"size"`
+	Path               string `json:"path"`
+}
+
+type ShareBasicCreateReply {
+	Identity string `json:"identity"`
+}
+
+type ShareBasicCreateRequest {
+	RepositoryIdentity string `json:"repositoryIdentity"`
+	ExpiredTime        int    `json:"expiredTime"`
 }
 
 type UserFileMoveReply {

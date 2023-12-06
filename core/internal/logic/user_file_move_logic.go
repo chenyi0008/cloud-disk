@@ -34,6 +34,7 @@ func (l *UserFileMoveLogic) UserFileMove(req *types.UserFileMoveRequest, userIde
 	if !has {
 		return nil, errors.New("文件夹不存在")
 	}
+	l.svcCtx.Engine.ShowSQL(true)
 	// 更新记录的parentId
 	_, err = l.svcCtx.Engine.Where("identity = ?", req.Identity).Update(models.UserRepository{
 		ParentId: int64(parentDate.Id),
