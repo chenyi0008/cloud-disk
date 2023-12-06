@@ -56,19 +56,19 @@ service core-api{
 	// 创建分享记录
 	@handler ShareBasicCreate
 	post /share/basic/create(ShareBasicCreateRequest) returns (ShareBasicCreateReply)
-
+	
 	// 资源保存
 	@handler ShareBasicSave
 	post /share/basic/save(ShareBasicSaveRequest) returns (ShareBasicSaveReply)
 	
 }
 
-type ShareBasicSaveRequest{
+type ShareBasicSaveRequest {
 	RepositoryIdentity string `json:"repositoryIdentity"`
-	ParentId int64 `json:"parentId"`
+	ParentId           int64  `json:"parentId"`
 }
 
-type ShareBasicSaveReply{
+type ShareBasicSaveReply {
 	Identity string `json:"identity"`
 }
 
@@ -152,7 +152,8 @@ type LoginRequest {
 }
 
 type LoginReply {
-	Token string `json:"token"`
+	Token        string `json:"token"`
+	RefreshToken string `json:"refreshToken"`
 }
 
 type UserDetailRequest {
