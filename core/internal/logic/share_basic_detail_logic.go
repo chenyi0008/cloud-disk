@@ -32,9 +32,11 @@ func (l *ShareBasicDetailLogic) ShareBasicDetail(req *types.ShareBasicDetailRequ
 	// 获取资源的详细信息
 	resp = &types.ShareBasicDetialReply{}
 	l.svcCtx.Engine.Table("share_basic").
-		Select("share_basic.repository_identity, repository_pool.name, repository_pool.ext, repository_pool.size, repository_pool.path").
+		Select("share_basic.repository_identity, user_repository.name, repository_pool.ext, repository_pool.size, repository_pool.path").
 		Join("LEFT", "repository_pool", "share_basic.repository_identity = repository_pool.identity").
-		Where("share_basic.identity = ?", req.Identity).Get(resp)
+		Join("LEFT", "user_repository", "user_repository.identity = share_basic.user_repository_identity").
+		Where("share_basic.identity = ?", req.Identity).
+		Get(resp)
 
 	return
 }

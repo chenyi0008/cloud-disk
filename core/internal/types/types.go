@@ -18,8 +18,8 @@ type ShareBasicCreateReply struct {
 }
 
 type ShareBasicCreateRequest struct {
-	RepositoryIdentity string `json:"repositoryIdentity"`
-	ExpiredTime        int    `json:"expiredTime"`
+	UserRepositoryIdentity string `json:"userRepositoryIdentity"`
+	ExpiredTime            int    `json:"expiredTime"`
 }
 
 type UserFileMoveReply struct {

@@ -56,7 +56,20 @@ service core-api{
 	// 创建分享记录
 	@handler ShareBasicCreate
 	post /share/basic/create(ShareBasicCreateRequest) returns (ShareBasicCreateReply)
+
+	// 资源保存
+	@handler ShareBasicSave
+	post /share/basic/save(ShareBasicSaveRequest) returns (ShareBasicSaveReply)
 	
+}
+
+type ShareBasicSaveRequest{
+	RepositoryIdentity string `json:"repositoryIdentity"`
+	ParentId int64 `json:"parentId"`
+}
+
+type ShareBasicSaveReply{
+	Identity string `json:"identity"`
 }
 
 type ShareBasicDetailRequest {
@@ -76,8 +89,8 @@ type ShareBasicCreateReply {
 }
 
 type ShareBasicCreateRequest {
-	RepositoryIdentity string `json:"repositoryIdentity"`
-	ExpiredTime        int    `json:"expiredTime"`
+	UserRepositoryIdentity string `json:"userRepositoryIdentity"`
+	ExpiredTime            int    `json:"expiredTime"`
 }
 
 type UserFileMoveReply {
